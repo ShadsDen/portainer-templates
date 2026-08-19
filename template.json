@@ -1,0 +1,81 @@
+{
+  "version": "3",
+  "templates": [
+    {
+      "id": 1,
+      "type": 1,
+      "title": "Nginx Web Server",
+      "description": "High-performance web server and reverse proxy",
+      "categories": ["webserver"],
+      "platform": "linux",
+      "logo": "https://raw.githubusercontent.com/myorg/portainer-templates/main/logos/nginx.png",
+      "image": "nginx:alpine",
+      "ports": [
+        "80/tcp",
+        "443/tcp"
+      ],
+      "volumes": [
+        {
+          "container": "/usr/share/nginx/html",
+          "bind": "/data/www"
+        },
+        {
+          "container": "/etc/nginx/conf.d"
+        }
+      ],
+      "restart_policy": "unless-stopped"
+    },
+    {
+      "id": 2,
+      "type": 3,
+      "title": "WordPress + MySQL",
+      "description": "WordPress CMS with MySQL 8 database",
+      "categories": ["CMS", "blog"],
+      "platform": "linux",
+      "logo": "https://portainer-io-assets.sfo2.digitaloceanspaces.com/logos/wordpress.png",
+      "repository": {
+        "url": "https://github.com/myorg/portainer-templates",
+        "stackfile": "stacks/wordpress/docker-compose.yml"
+      },
+      "env": [
+        {
+          "name": "WORDPRESS_PORT",
+          "label": "WordPress port",
+          "default": "80"
+        },
+        {
+          "name": "MYSQL_ROOT_PASSWORD",
+          "label": "MySQL root password"
+        },
+        {
+          "name": "MYSQL_PASSWORD",
+          "label": "WordPress DB password"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "type": 3,
+      "title": "Monitoring Stack",
+      "description": "Prometheus + Grafana monitoring",
+      "categories": ["monitoring", "observability"],
+      "platform": "linux",
+      "logo": "https://portainer-io-assets.sfo2.digitaloceanspaces.com/logos/prometheus.png",
+      "repository": {
+        "url": "https://github.com/myorg/portainer-templates",
+        "stackfile": "stacks/monitoring/docker-compose.yml"
+      },
+      "env": [
+        {
+          "name": "GRAFANA_PASSWORD",
+          "label": "Grafana admin password"
+        },
+        {
+          "name": "GRAFANA_PORT",
+          "label": "Grafana port",
+          "default": "3000"
+        }
+      ]
+    }
+  ]
+}
